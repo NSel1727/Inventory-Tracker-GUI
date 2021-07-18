@@ -5,27 +5,38 @@
 
 package ucf.assignments;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class startController {
 
+    public Button startButton;
+
     public void startButtonClicked(ActionEvent actionEvent) {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("inventoryTracker.fxml"));
-            Scene scene = new Scene(root);
+            sceneOperator operator = new sceneOperator();
+            operator.initiateScenes();
+            Scene scene = operator.getScene("inventoryTracker");
 
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Stage stage = new Stage();
+            stage.setTitle("Inventory Tracker");
             stage.setScene(scene);
             stage.show();
-        }catch(IOException ex){
+            startButton.getScene().getWindow().hide();
+        }catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public void exitButtonClicked(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }

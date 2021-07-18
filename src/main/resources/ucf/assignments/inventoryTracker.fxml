@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="377.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.inventoryTrackerController">
+<AnchorPane prefHeight="377.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="600.0">
         <menus>
@@ -22,20 +22,26 @@
                   <MenuItem mnemonicParsing="false" onAction="#jsonOptionSelected" text="JSON" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Search...">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#byNameOptionClicked" text="By Name" />
+                  <MenuItem mnemonicParsing="false" onAction="#bySerialOptionClicked" text="By Serial #" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" onAction="#exitButtonClicked" text="Exit" />
         </menus>
       </MenuBar>
       <TableView fx:id="itemTable" layoutX="102.0" layoutY="28.0" prefHeight="293.0" prefWidth="504.0">
         <columns>
-          <TableColumn prefWidth="171.2000274658203" text="Value" />
-          <TableColumn prefWidth="185.60003662109375" text="Serial #" />
-            <TableColumn prefWidth="144.0" text="Name" />
+          <TableColumn fx:id="valueColumn" prefWidth="147.199951171875" text="Value" />
+          <TableColumn fx:id="serialColumn" prefWidth="102.40003967285156" text="Serial #" />
+            <TableColumn fx:id="nameColumn" prefWidth="255.20001220703125" text="Name" />
         </columns>
       </TableView>
       <Text layoutX="22.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item Count:" />
-      <TextField fx:id="itemCount" editable="false" layoutX="13.0" layoutY="295.0" prefHeight="26.0" prefWidth="79.0" />
-      <Button fx:id="deleteItemButton" layoutX="14.0" layoutY="136.0" mnemonicParsing="false" onAction="#deleteItemButtonClicked" text="Delete Item" />
-      <Button fx:id="editItemButton" layoutX="13.0" layoutY="175.0" mnemonicParsing="false" onAction="#editItemButtonClicked" prefHeight="26.0" prefWidth="78.0" text="Edit Item" />
+      <TextField fx:id="itemCount" alignment="CENTER" editable="false" layoutX="13.0" layoutY="295.0" prefHeight="26.0" prefWidth="79.0" text="0/100" />
+      <Button fx:id="deleteItemButton" layoutX="14.0" layoutY="143.0" mnemonicParsing="false" onAction="#deleteItemButtonClicked" text="Delete Item" />
+      <Button fx:id="editItemButton" layoutX="13.0" layoutY="182.0" mnemonicParsing="false" onAction="#editItemButtonClicked" prefHeight="26.0" prefWidth="78.0" text="Edit Item" />
       <Button layoutX="285.0" layoutY="336.0" mnemonicParsing="false" onAction="#addItemButtonClicked" prefHeight="26.0" prefWidth="138.0" text="Add Item" />
    </children>
 </AnchorPane>

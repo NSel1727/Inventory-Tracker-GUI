@@ -21,11 +21,11 @@ public class inventoryTracker extends Application{
     @Override
     public void start(Stage primaryStage){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("inventoryTracker.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("start.fxml"));
             Scene scene = new Scene(root);
 
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Inventory Tracker Application");
+            primaryStage.setTitle("Inventory Tracker");
             primaryStage.show();
         }catch(IOException ex){
             ex.printStackTrace();

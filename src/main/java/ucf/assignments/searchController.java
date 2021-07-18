@@ -5,5 +5,5 @@
 
 package ucf.assignments;
 
-public class editItemController {
+public class searchController {
 }

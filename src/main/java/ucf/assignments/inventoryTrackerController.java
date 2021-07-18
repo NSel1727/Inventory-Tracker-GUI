@@ -5,25 +5,44 @@
 
 package ucf.assignments;
 
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
-public class inventoryTrackerController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class inventoryTrackerController implements Initializable {
     public TableView itemTable;
     public TextField itemCount;
     public Button deleteItemButton;
     public Button editItemButton;
+    public ObservableList<item> trackerList;
+    public TableView tableView;
+    public TableColumn valueColumn;
+    public TableColumn serialColumn;
+    public TableColumn nameColumn;
+    public sceneOperator operator;
 
-    public void loadButtonClicked(ActionEvent actionEvent) {
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        serialColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        itemTable.setItems((ObservableList) trackerList);
     }
 
-    public void exitButtonClicked(ActionEvent actionEvent) {
-
+    public inventoryTrackerController(ObservableList<item> trackerList, TableView tableView, sceneOperator operator){
+        this.trackerList = trackerList;
+        this.tableView = tableView;
+        this.operator = operator;
     }
 
     public void deleteItemButtonClicked(ActionEvent actionEvent) {
@@ -35,6 +54,16 @@ public class inventoryTrackerController {
     }
 
     public void addItemButtonClicked(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        stage.setTitle("Add Item");
+        stage.setScene(operator.getScene("addItem"));
+        stage.show();
+    }
+
+    public void byNameOptionClicked(ActionEvent actionEvent) {
+    }
+
+    public void bySerialOptionClicked(ActionEvent actionEvent) {
 
     }
 
@@ -48,5 +77,13 @@ public class inventoryTrackerController {
 
     public void jsonOptionSelected(ActionEvent actionEvent) {
 
+    }
+
+    public void loadButtonClicked(ActionEvent actionEvent) {
+
+    }
+
+    public void exitButtonClicked(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
