@@ -10,12 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class addItemController{
 
     public ObservableList<item> trackerList;
-    public TableView itemTable;
     public sceneOperator operator;
     public Text badSerial;
     public Text badValue;
@@ -23,11 +23,17 @@ public class addItemController{
     public TextField nameBox;
     public TextField serialBox;
     public TextField valueBox;
+    public ArrayList<String> serialList;
 
-    public addItemController(ObservableList<item> trackerList, TableView itemTable, sceneOperator operator){
+    public addItemController(ObservableList<item> trackerList, ArrayList<String> serialList, sceneOperator operator){
         this.trackerList = trackerList;
-        this.itemTable = itemTable;
+        this.serialList = serialList;
         this.operator = operator;
+    }
+
+    public addItemController(ObservableList<item> trackerList, ArrayList<String> serialList){
+        this.trackerList = trackerList;
+        this.serialList = serialList;
     }
 
     public void completeButtonClicked(ActionEvent actionEvent) {
@@ -51,6 +57,7 @@ public class addItemController{
         item.serialNumber = serialNumber;
         item.value = value;
 
+        serialList.add(serialNumber);
         trackerList.add(item);
     }
 
@@ -69,11 +76,13 @@ public class addItemController{
     }
 
     public boolean properSerial(String serial){
-        if(serial.length() != 10){
+        if(serialList.contains(serial)){
+            badSerial.setText("Already Exists");
             badSerial.setVisible(true);
             return false;
         }
-        if(!(serial.matches("^[a-zA-Z0-9]*$"))){
+        if(!(serial.matches("^[a-zA-Z0-9]*$")) || serial.length() != 10){
+            badSerial.setText("Incorrect Format");
             badSerial.setVisible(true);
             return false;
         }

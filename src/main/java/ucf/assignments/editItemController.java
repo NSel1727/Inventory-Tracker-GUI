@@ -13,10 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class editItemController implements Initializable{
+public class editItemController extends addItemController implements Initializable{
     public ObservableList<item> trackerList;
+    public ArrayList<String> serialList;
     public TableView itemTable;
     public Text badSerial;
     public Text badValue;
@@ -33,12 +35,14 @@ public class editItemController implements Initializable{
         valueBox.setText(trackerList.get(index).value);
     }
 
-    public editItemController(ObservableList<item> trackerList, TableView itemTable){
+    public editItemController(ObservableList<item> trackerList, ArrayList<String> serialList){
+        super(trackerList, serialList);
         this.trackerList = trackerList;
-        this.itemTable = itemTable;
+        this.serialList = serialList;
     }
 
     public void completeButtonClicked(ActionEvent actionEvent) {
+        serialList.remove(index);
         if(properName(nameBox.getText()) & properSerial(serialBox.getText()) & properValue(valueBox.getText())){
             saveEditedItem(nameBox.getText(), serialBox.getText(), valueBox.getText());
 
@@ -47,67 +51,20 @@ public class editItemController implements Initializable{
             valueBox.clear();
 
             valueBox.getScene().getWindow().hide();
+            return;
         }
+        serialList.add(serialBox.getText());
     }
 
     public void saveEditedItem(String name, String serialNumber, String value){
         if(!(value.contains("$"))){
             value = "$" + value;
         }
+        serialList.add(serialNumber);
         trackerList.get(index).name = name;
         trackerList.get(index).serialNumber = serialNumber;
         trackerList.get(index).value = value;
 
         trackerList.set(index, trackerList.get(index));
-        System.out.println(trackerList.get(0).name);
-    }
-
-    public boolean properName(String name){
-        badName.setVisible(true);
-        if(name.length() < 2){
-            badName.setText("Too Short");
-            return false;
-        }
-        if(name.length() > 256){
-            badName.setText("Too Long");
-            return false;
-        }
-        badName.setVisible(false);
-        return true;
-    }
-
-    public boolean properSerial(String serial){
-        if(serial.length() != 10){
-            badSerial.setVisible(true);
-            return false;
-        }
-        if(!(serial.matches("^[a-zA-Z0-9]*$"))){
-            badSerial.setVisible(true);
-            return false;
-        }
-        badSerial.setVisible(false);
-        return true;
-    }
-
-    public boolean properValue(String value) {
-        if (value.length() > 0 && value.charAt(0) == '$') {
-            String temp = value.substring(1);
-            try {
-                Double.parseDouble(temp);
-                badValue.setVisible(false);
-                return true;
-            } catch (Exception ex) {
-                badValue.setVisible(true);
-                return false;
-            }
-        }
-        try {
-            Double.parseDouble(value);
-            badValue.setVisible(false);
-            return true;
-        } catch (Exception ex) {
-            badValue.setVisible(true);
-            return false;
-        }
     }
 }

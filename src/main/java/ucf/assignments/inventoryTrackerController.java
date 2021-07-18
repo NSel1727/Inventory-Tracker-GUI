@@ -8,8 +8,12 @@ package ucf.assignments;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -19,11 +23,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class inventoryTrackerController implements Initializable {
@@ -31,19 +36,31 @@ public class inventoryTrackerController implements Initializable {
     public TextField itemCount;
     public Button deleteItemButton;
     public Button editItemButton;
+    public Button addItemButton;
     public ObservableList<item> trackerList;
+    public ArrayList<String> serialList;
     public TableColumn valueColumn;
     public TableColumn serialColumn;
     public TableColumn nameColumn;
     public sceneOperator operator;
-    public static int index;
 
-    @Override
+    @Override @FXML
     public void initialize(URL location, ResourceBundle resources) {
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         serialColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         itemTable.setItems(trackerList);
+        trackerList.addListener(new ListChangeListener<item>() {
+            @Override
+            public void onChanged(Change<? extends item> c) {
+                itemCount.setText(trackerList.size() + "/100");
+                if(trackerList.size() == 100){
+                    addItemButton.setVisible(false);
+                }else{
+                    addItemButton.setVisible(true);
+                }
+            }
+        });
         itemTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -53,13 +70,15 @@ public class inventoryTrackerController implements Initializable {
         });
     }
 
-    public inventoryTrackerController(ObservableList<item> trackerList, TableView itemTable, sceneOperator operator){
+    public inventoryTrackerController(ObservableList<item> trackerList, ArrayList<String> serialList, sceneOperator operator){
         this.trackerList = trackerList;
-        this.itemTable = itemTable;
+        this.serialList = serialList;
         this.operator = operator;
     }
 
+    @FXML
     public void deleteItemButtonClicked(ActionEvent actionEvent) {
+        serialList.remove(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
         trackerList.remove(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
         if(trackerList.size() == 0){
             deleteItemButton.setVisible(false);
@@ -67,6 +86,7 @@ public class inventoryTrackerController implements Initializable {
         }
     }
 
+    @FXML
     public void addItemButtonClicked(ActionEvent actionEvent) {
         Stage stage = new Stage();
         stage.setTitle("Add Item");
@@ -74,11 +94,12 @@ public class inventoryTrackerController implements Initializable {
         stage.show();
     }
 
+    @FXML
     public void editItemButtonClicked(ActionEvent actionEvent) {
         editItemController.index = trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem());
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addItem.fxml"));
-            editItemController edit = new editItemController(trackerList, itemTable);
+            editItemController edit = new editItemController(trackerList, serialList);
             loader.setController(edit);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -91,29 +112,36 @@ public class inventoryTrackerController implements Initializable {
         }
     }
 
+    @FXML
     public void byNameOptionClicked(ActionEvent actionEvent) {
     }
 
+    @FXML
     public void bySerialOptionClicked(ActionEvent actionEvent) {
 
     }
 
+    @FXML
     public void htmlOptionSelected(ActionEvent actionEvent) {
 
     }
 
+    @FXML
     public void tsvOptionSelected(ActionEvent actionEvent) {
 
     }
 
+    @FXML
     public void jsonOptionSelected(ActionEvent actionEvent) {
 
     }
 
+    @FXML
     public void loadButtonClicked(ActionEvent actionEvent) {
 
     }
 
+    @FXML
     public void exitButtonClicked(ActionEvent actionEvent) {
         Platform.exit();
     }

@@ -11,8 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,9 +24,11 @@ public class sceneOperator {
 
     public void initiateScenes(){
         ObservableList<item> trackerList = FXCollections.observableArrayList();
-        TableView view = new TableView();
-        inventoryTrackerController inventory = new inventoryTrackerController(trackerList, view, this);
-        addItemController add = new addItemController(trackerList, view, this);
+        ArrayList<String> serialList = new ArrayList<>();
+
+        inventoryTrackerController inventory = new inventoryTrackerController(trackerList, serialList, this);
+        addItemController add = new addItemController(trackerList, serialList, this);
+        searchController search = new searchController();
 
         Parent root;
 
@@ -44,6 +48,16 @@ public class sceneOperator {
         try{
             root = loader.load();
             scenes.put("addItem", new Scene(root));
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+
+        loader = new FXMLLoader(getClass().getResource("search.fxml"));
+        loader.setController(search);
+
+        try{
+            root = loader.load();
+            scenes.put("search", new Scene(root));
         }catch(IOException ex){
             ex.printStackTrace();
         }
