@@ -6,6 +6,8 @@
 package ucf.assignments;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -25,7 +27,6 @@ public class inventoryTrackerController implements Initializable {
     public Button deleteItemButton;
     public Button editItemButton;
     public ObservableList<item> trackerList;
-    public TableView tableView;
     public TableColumn valueColumn;
     public TableColumn serialColumn;
     public TableColumn nameColumn;
@@ -36,17 +37,28 @@ public class inventoryTrackerController implements Initializable {
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         serialColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        itemTable.setItems((ObservableList) trackerList);
+        itemTable.setItems(trackerList);
+        itemTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+              deleteItemButton.setVisible(true);
+              editItemButton.setVisible(true);
+            }
+        });
     }
 
-    public inventoryTrackerController(ObservableList<item> trackerList, TableView tableView, sceneOperator operator){
+    public inventoryTrackerController(ObservableList<item> trackerList, TableView itemTable, sceneOperator operator){
         this.trackerList = trackerList;
-        this.tableView = tableView;
+        this.itemTable = itemTable;
         this.operator = operator;
     }
 
     public void deleteItemButtonClicked(ActionEvent actionEvent) {
-
+        trackerList.remove(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
+        if(trackerList.size() == 0){
+            deleteItemButton.setVisible(false);
+            editItemButton.setVisible(false);
+        }
     }
 
     public void editItemButtonClicked(ActionEvent actionEvent) {

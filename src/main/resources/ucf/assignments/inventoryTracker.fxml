@@ -40,8 +40,8 @@
       </TableView>
       <Text layoutX="22.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item Count:" />
       <TextField fx:id="itemCount" alignment="CENTER" editable="false" layoutX="13.0" layoutY="295.0" prefHeight="26.0" prefWidth="79.0" text="0/100" />
-      <Button fx:id="deleteItemButton" layoutX="14.0" layoutY="143.0" mnemonicParsing="false" onAction="#deleteItemButtonClicked" text="Delete Item" />
-      <Button fx:id="editItemButton" layoutX="13.0" layoutY="182.0" mnemonicParsing="false" onAction="#editItemButtonClicked" prefHeight="26.0" prefWidth="78.0" text="Edit Item" />
+      <Button fx:id="deleteItemButton" layoutX="14.0" layoutY="143.0" mnemonicParsing="false" onAction="#deleteItemButtonClicked" text="Delete Item" visible="false" />
+      <Button fx:id="editItemButton" layoutX="13.0" layoutY="182.0" mnemonicParsing="false" onAction="#editItemButtonClicked" prefHeight="26.0" prefWidth="78.0" text="Edit Item" visible="false" />
       <Button layoutX="285.0" layoutY="336.0" mnemonicParsing="false" onAction="#addItemButtonClicked" prefHeight="26.0" prefWidth="138.0" text="Add Item" />
    </children>
 </AnchorPane>

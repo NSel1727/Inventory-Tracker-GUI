@@ -14,7 +14,7 @@ import javafx.scene.text.Text;
 public class addItemController{
 
     public ObservableList<item> trackerList;
-    public TableView tableView;
+    public TableView itemTable;
     public sceneOperator operator;
     public Text badSerial;
     public Text badValue;
@@ -23,19 +23,21 @@ public class addItemController{
     public TextField serialBox;
     public TextField valueBox;
 
-    public addItemController(ObservableList<item> trackerList, TableView tableView, sceneOperator operator){
+    public addItemController(ObservableList<item> trackerList, TableView itemTable, sceneOperator operator){
         this.trackerList = trackerList;
-        this.tableView = tableView;
+        this.itemTable = itemTable;
         this.operator = operator;
     }
 
     public void completeButtonClicked(ActionEvent actionEvent) {
         if(properName(nameBox.getText()) & properSerial(serialBox.getText()) & properValue(valueBox.getText())){
             saveItem(nameBox.getText(), serialBox.getText(), valueBox.getText());
-            tableView.setItems(trackerList);
+
+            itemTable.setItems(trackerList);
             nameBox.clear();
             serialBox.clear();
             valueBox.clear();
+
             valueBox.getScene().getWindow().hide();
         }
     }
@@ -50,7 +52,6 @@ public class addItemController{
         item.value = value;
 
         trackerList.add(item);
-        System.out.print(item.value);
     }
 
     public boolean properName(String name){
