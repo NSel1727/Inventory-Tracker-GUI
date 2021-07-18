@@ -7,32 +7,40 @@ package ucf.assignments;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-public class addItemController{
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class editItemController implements Initializable{
     public ObservableList<item> trackerList;
     public TableView itemTable;
-    public sceneOperator operator;
     public Text badSerial;
     public Text badValue;
     public Text badName;
     public TextField nameBox;
     public TextField serialBox;
     public TextField valueBox;
+    public static int index;
 
-    public addItemController(ObservableList<item> trackerList, TableView itemTable, sceneOperator operator){
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        nameBox.setText(trackerList.get(index).name);
+        serialBox.setText(trackerList.get(index).serialNumber);
+        valueBox.setText(trackerList.get(index).value);
+    }
+
+    public editItemController(ObservableList<item> trackerList, TableView itemTable){
         this.trackerList = trackerList;
         this.itemTable = itemTable;
-        this.operator = operator;
     }
 
     public void completeButtonClicked(ActionEvent actionEvent) {
         if(properName(nameBox.getText()) & properSerial(serialBox.getText()) & properValue(valueBox.getText())){
-            saveNewItem(nameBox.getText(), serialBox.getText(), valueBox.getText());
+            saveEditedItem(nameBox.getText(), serialBox.getText(), valueBox.getText());
 
             nameBox.clear();
             serialBox.clear();
@@ -42,16 +50,16 @@ public class addItemController{
         }
     }
 
-    public void saveNewItem(String name, String serialNumber, String value){
+    public void saveEditedItem(String name, String serialNumber, String value){
         if(!(value.contains("$"))){
             value = "$" + value;
         }
-        item item = new item();
-        item.name = name;
-        item.serialNumber = serialNumber;
-        item.value = value;
+        trackerList.get(index).name = name;
+        trackerList.get(index).serialNumber = serialNumber;
+        trackerList.get(index).value = value;
 
-        trackerList.add(item);
+        trackerList.set(index, trackerList.get(index));
+        System.out.println(trackerList.get(0).name);
     }
 
     public boolean properName(String name){

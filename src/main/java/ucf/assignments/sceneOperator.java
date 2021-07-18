@@ -13,9 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class sceneOperator {
@@ -25,7 +23,6 @@ public class sceneOperator {
     public void initiateScenes(){
         ObservableList<item> trackerList = FXCollections.observableArrayList();
         TableView view = new TableView();
-
         inventoryTrackerController inventory = new inventoryTrackerController(trackerList, view, this);
         addItemController add = new addItemController(trackerList, view, this);
 
