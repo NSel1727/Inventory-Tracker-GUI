@@ -12,8 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,7 +23,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +36,7 @@ public class inventoryTrackerController implements Initializable {
     public Button deleteItemButton;
     public Button editItemButton;
     public Button addItemButton;
+    public Button exitSearchButton;
     public ObservableList<item> trackerList;
     public ArrayList<String> serialList;
     public TableColumn valueColumn;
@@ -67,8 +65,8 @@ public class inventoryTrackerController implements Initializable {
         itemTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-              deleteItemButton.setVisible(true);
-              editItemButton.setVisible(true);
+                deleteItemButton.setVisible(true);
+                editItemButton.setVisible(true);
             }
         });
     }
@@ -117,44 +115,36 @@ public class inventoryTrackerController implements Initializable {
 
     @FXML
     public void searchButtonClicked(ActionEvent actionEvent){
-        ObservableList<item> filteredList = FXCollections.observableArrayList();
+        ObservableList<item> filtered = FXCollections.observableArrayList();
         for (item item : trackerList){
             if(searchIsContained(item, searchBar.getText())){
-                filteredList.add(item);
+                filtered.add(item);
             }
         }
-        itemTable.setItems(filteredList);
-    }
-
-    public boolean searchIsContained(item item, String search){
-        if(item.name.toLowerCase().contains(search.toLowerCase()) || item.serialNumber.toLowerCase().contains(search.toLowerCase())){
-            return true;
-        }
-       return false;
+        itemTable.setItems(filtered);
+        exitSearchButton.setVisible(true);
+        searchBar.setText("");
     }
 
     @FXML
-    public void byNameOptionClicked(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    public void bySerialOptionClicked(ActionEvent actionEvent) {
-
+    public void exitSearchButtonClicked(ActionEvent actionEvent){
+        itemTable.setItems(trackerList);
+        exitSearchButton.setVisible(false);
     }
 
     @FXML
     public void htmlOptionSelected(ActionEvent actionEvent) {
-
+        fileSaver.saveHTML(trackerList, fileSaver.getFile("HTML Files (*.html)", "*.html"));
     }
 
     @FXML
     public void tsvOptionSelected(ActionEvent actionEvent) {
-
+        fileSaver.saveTSV(trackerList, fileSaver.getFile("TSV Files (*.tsv)", "*.tsv"));
     }
 
     @FXML
     public void jsonOptionSelected(ActionEvent actionEvent) {
-
+        fileSaver.saveJSON(trackerList, fileSaver.getFile("JSON Files (*.json)", "*.json"));
     }
 
     @FXML
@@ -165,5 +155,12 @@ public class inventoryTrackerController implements Initializable {
     @FXML
     public void exitButtonClicked(ActionEvent actionEvent) {
         Platform.exit();
+    }
+
+    public boolean searchIsContained(item item, String search){
+        if(item.name.toLowerCase().contains(search.toLowerCase()) || item.serialNumber.toLowerCase().contains(search.toLowerCase())){
+            return true;
+        }
+        return false;
     }
 }

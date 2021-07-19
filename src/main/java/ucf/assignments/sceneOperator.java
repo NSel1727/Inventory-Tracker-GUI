@@ -28,36 +28,21 @@ public class sceneOperator {
 
         inventoryTrackerController inventory = new inventoryTrackerController(trackerList, serialList, this);
         addItemController add = new addItemController(trackerList, serialList, this);
-        searchController search = new searchController();
 
         Parent root;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("inventoryTracker.fxml"));
-        loader.setController(inventory);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("inventoryTracker.fxml"));
+            loader.setController(inventory);
 
-        try{
             root = loader.load();
             scenes.put("inventoryTracker", new Scene(root));
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
 
-        loader = new FXMLLoader(getClass().getResource("addItem.fxml"));
-        loader.setController(add);
+            loader = new FXMLLoader(getClass().getResource("addItem.fxml"));
+            loader.setController(add);
 
-        try{
             root = loader.load();
             scenes.put("addItem", new Scene(root));
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
-
-        loader = new FXMLLoader(getClass().getResource("search.fxml"));
-        loader.setController(search);
-
-        try{
-            root = loader.load();
-            scenes.put("search", new Scene(root));
         }catch(IOException ex){
             ex.printStackTrace();
         }

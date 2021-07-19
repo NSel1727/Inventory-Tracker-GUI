@@ -22,12 +22,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#jsonOptionSelected" text="JSON" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Search...">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#byNameOptionClicked" text="By Name" />
-                  <MenuItem mnemonicParsing="false" onAction="#bySerialOptionClicked" text="By Serial #" />
-              </items>
-            </Menu>
           <Menu mnemonicParsing="false" onAction="#exitButtonClicked" text="Exit" />
         </menus>
       </MenuBar>
@@ -40,10 +34,11 @@
       </TableView>
       <Text layoutX="22.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item Count:" />
       <TextField fx:id="itemCount" alignment="CENTER" editable="false" layoutX="13.0" layoutY="295.0" prefHeight="26.0" prefWidth="79.0" text="0/100" />
-      <Button fx:id="deleteItemButton" layoutX="14.0" layoutY="143.0" mnemonicParsing="false" onAction="#deleteItemButtonClicked" text="Delete Item" visible="false" />
-      <Button fx:id="editItemButton" layoutX="13.0" layoutY="182.0" mnemonicParsing="false" onAction="#editItemButtonClicked" prefHeight="26.0" prefWidth="78.0" text="Edit Item" visible="false" />
+      <Button fx:id="deleteItemButton" layoutX="14.0" layoutY="182.0" mnemonicParsing="false" onAction="#deleteItemButtonClicked" text="Delete Item" visible="false" />
+      <Button fx:id="editItemButton" layoutX="13.0" layoutY="216.0" mnemonicParsing="false" onAction="#editItemButtonClicked" prefHeight="26.0" prefWidth="78.0" text="Edit Item" visible="false" />
       <Button fx:id="addItemButton" layoutX="285.0" layoutY="336.0" mnemonicParsing="false" onAction="#addItemButtonClicked" prefHeight="26.0" prefWidth="138.0" text="Add Item" />
-      <TextField fx:id="searchBar" layoutX="9.0" layoutY="142.0" prefHeight="26.0" prefWidth="87.0" />
-      <Button layoutX="27.0" layoutY="104.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
+      <TextField fx:id="searchBar" layoutX="9.0" layoutY="97.0" prefHeight="26.0" prefWidth="87.0" />
+      <Button layoutX="15.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="26.0" prefWidth="74.0" text="Search" />
+      <Button fx:id="exitSearchButton" layoutX="15.0" layoutY="131.0" mnemonicParsing="false" onAction="#exitSearchButtonClicked" text="Exit Search" visible="false" />
    </children>
 </AnchorPane>
