@@ -8,6 +8,7 @@ package ucf.assignments;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,6 +35,7 @@ import java.util.ResourceBundle;
 public class inventoryTrackerController implements Initializable {
     public TableView itemTable;
     public TextField itemCount;
+    public TextField searchBar;
     public Button deleteItemButton;
     public Button editItemButton;
     public Button addItemButton;
@@ -43,6 +45,7 @@ public class inventoryTrackerController implements Initializable {
     public TableColumn serialColumn;
     public TableColumn nameColumn;
     public sceneOperator operator;
+
 
     @Override @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -110,6 +113,24 @@ public class inventoryTrackerController implements Initializable {
         }catch(IOException ex){
             ex.printStackTrace();
         }
+    }
+
+    @FXML
+    public void searchButtonClicked(ActionEvent actionEvent){
+        ObservableList<item> filteredList = FXCollections.observableArrayList();
+        for (item item : trackerList){
+            if(searchIsContained(item, searchBar.getText())){
+                filteredList.add(item);
+            }
+        }
+        itemTable.setItems(filteredList);
+    }
+
+    public boolean searchIsContained(item item, String search){
+        if(item.name.toLowerCase().contains(search.toLowerCase()) || item.serialNumber.toLowerCase().contains(search.toLowerCase())){
+            return true;
+        }
+       return false;
     }
 
     @FXML

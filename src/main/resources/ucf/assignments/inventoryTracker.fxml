@@ -43,5 +43,7 @@
       <Button fx:id="deleteItemButton" layoutX="14.0" layoutY="143.0" mnemonicParsing="false" onAction="#deleteItemButtonClicked" text="Delete Item" visible="false" />
       <Button fx:id="editItemButton" layoutX="13.0" layoutY="182.0" mnemonicParsing="false" onAction="#editItemButtonClicked" prefHeight="26.0" prefWidth="78.0" text="Edit Item" visible="false" />
       <Button fx:id="addItemButton" layoutX="285.0" layoutY="336.0" mnemonicParsing="false" onAction="#addItemButtonClicked" prefHeight="26.0" prefWidth="138.0" text="Add Item" />
+      <TextField fx:id="searchBar" layoutX="9.0" layoutY="142.0" prefHeight="26.0" prefWidth="87.0" />
+      <Button layoutX="27.0" layoutY="104.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
    </children>
 </AnchorPane>
