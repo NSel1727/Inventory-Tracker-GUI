@@ -17,16 +17,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class inventoryTrackerController implements Initializable {
@@ -43,6 +42,7 @@ public class inventoryTrackerController implements Initializable {
     public TableColumn serialColumn;
     public TableColumn nameColumn;
     public sceneOperator operator;
+    public Menu loadButton;
 
 
     @Override @FXML
@@ -139,7 +139,7 @@ public class inventoryTrackerController implements Initializable {
 
     @FXML
     public void tsvOptionSelected(ActionEvent actionEvent) {
-        fileSaver.saveTSV(trackerList, fileSaver.getFile("TSV Files (*.tsv)", "*.tsv"));
+        fileSaver.saveTSV(trackerList, fileSaver.getFile("TSV Files (*.txt)", "*.txt"));
     }
 
     @FXML
@@ -149,7 +149,24 @@ public class inventoryTrackerController implements Initializable {
 
     @FXML
     public void loadButtonClicked(ActionEvent actionEvent) {
-
+        File file = fileLoader.chooseFile();
+        if(file != null){
+            trackerList.clear();
+            serialList.clear();
+            if(file.toString().contains("html")){
+                ObservableList<item> htmlInventory = fileLoader.loadHTML(file);
+                trackerList.addAll(htmlInventory);
+                serialList.addAll(loadedSerialList(htmlInventory));
+            }else if(file.toString().contains("txt")){
+                ObservableList<item> tsvInventory = fileLoader.loadTSV(file);
+                trackerList.addAll(tsvInventory);
+                serialList.addAll(loadedSerialList(tsvInventory));
+            }else if(file.toString().contains("json")){
+                ObservableList<item> jsonInventory = fileLoader.loadJSON(file);
+                trackerList.addAll(jsonInventory);
+                serialList.addAll(loadedSerialList(jsonInventory));
+            }
+        }
     }
 
     @FXML
@@ -162,5 +179,14 @@ public class inventoryTrackerController implements Initializable {
             return true;
         }
         return false;
+    }
+
+    public ArrayList<String> loadedSerialList(ObservableList<item> inventory){
+        ArrayList<String> serialList = new ArrayList<>();
+
+        for(item i : inventory){
+            serialList.add(i.serialNumber.toLowerCase(Locale.ROOT));
+        }
+        return serialList;
     }
 }

@@ -12,9 +12,12 @@
 
 <AnchorPane prefHeight="377.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="600.0">
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
         <menus>
-          <Menu mnemonicParsing="false" onAction="#loadButtonClicked" text="Load" />
+          <Menu mnemonicParsing="false" text="Load">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#loadButtonClicked" text="Load" />
+               </items></Menu>
           <Menu mnemonicParsing="false" text="Save As...">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#htmlOptionSelected" text="HTML" />
@@ -22,7 +25,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#jsonOptionSelected" text="JSON" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" onAction="#exitButtonClicked" text="Exit" />
+          <Menu mnemonicParsing="false" text="Exit">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#exitButtonClicked" text="Exit Program" />
+               </items></Menu>
         </menus>
       </MenuBar>
       <TableView fx:id="itemTable" layoutX="102.0" layoutY="28.0" prefHeight="293.0" prefWidth="504.0">

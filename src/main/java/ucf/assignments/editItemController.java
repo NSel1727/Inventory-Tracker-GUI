@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class editItemController extends addItemController implements Initializable{
@@ -53,14 +54,14 @@ public class editItemController extends addItemController implements Initializab
             valueBox.getScene().getWindow().hide();
             return;
         }
-        serialList.add(serialBox.getText());
+        serialList.add(serialBox.getText().toLowerCase(Locale.ROOT));
     }
 
     public void saveEditedItem(String name, String serialNumber, String value){
         if(!(value.contains("$"))){
             value = "$" + value;
         }
-        serialList.add(serialNumber);
+        serialList.add(serialNumber.toLowerCase(Locale.ROOT));
         trackerList.get(index).name = name;
         trackerList.get(index).serialNumber = serialNumber;
         trackerList.get(index).value = value;

@@ -10,6 +10,12 @@ public class item {
     public String name;
     public String serialNumber;
 
+    public item(String value, String serialNumber, String name){
+        this.value = value;
+        this.serialNumber = serialNumber;
+        this.name = name;
+    }
+
     public String getValue() {
         return value;
     }

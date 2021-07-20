@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class addItemController{
 
@@ -52,12 +53,9 @@ public class addItemController{
         if(!(value.contains("$"))){
             value = "$" + value;
         }
-        item item = new item();
-        item.name = name;
-        item.serialNumber = serialNumber;
-        item.value = value;
+        item item = new item(value, serialNumber, name);
 
-        serialList.add(serialNumber);
+        serialList.add(serialNumber.toLowerCase(Locale.ROOT));
         trackerList.add(item);
     }
 
@@ -76,7 +74,7 @@ public class addItemController{
     }
 
     public boolean properSerial(String serial){
-        if(serialList.contains(serial)){
+        if(serialList.contains(serial.toLowerCase(Locale.ROOT))){
             badSerial.setText("Already Exists");
             badSerial.setVisible(true);
             return false;
