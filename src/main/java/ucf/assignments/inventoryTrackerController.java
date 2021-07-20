@@ -29,23 +29,25 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class inventoryTrackerController implements Initializable {
-    public TableView itemTable;
-    public TextField itemCount;
-    public TextField searchBar;
-    public Button deleteItemButton;
-    public Button editItemButton;
-    public Button addItemButton;
-    public Button exitSearchButton;
+    @FXML public TableView itemTable;
+    @FXML public TextField itemCount;
+    @FXML public TextField searchBar;
+    @FXML public Button deleteItemButton;
+    @FXML public Button deleteAllButton;
+    @FXML public Button editItemButton;
+    @FXML public Button addItemButton;
+    @FXML public Button exitSearchButton;
+    @FXML public MenuItem saveButton;
+    @FXML public TableColumn valueColumn;
+    @FXML public TableColumn serialColumn;
+    @FXML public TableColumn nameColumn;
+
     public ObservableList<item> trackerList;
     public ArrayList<String> serialList;
-    public TableColumn valueColumn;
-    public TableColumn serialColumn;
-    public TableColumn nameColumn;
     public sceneOperator operator;
-    public Menu loadButton;
 
 
-    @Override @FXML
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         serialColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
@@ -55,6 +57,10 @@ public class inventoryTrackerController implements Initializable {
             @Override
             public void onChanged(Change<? extends item> c) {
                 itemCount.setText(trackerList.size() + "/100");
+                if(trackerList.size() > 0){
+                    saveButton.setVisible(true);
+                    deleteAllButton.setVisible(true);
+                }
                 if(trackerList.size() == 100){
                     addItemButton.setVisible(false);
                 }else{
@@ -81,14 +87,31 @@ public class inventoryTrackerController implements Initializable {
     public void deleteItemButtonClicked(ActionEvent actionEvent) {
         serialList.remove(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
         trackerList.remove(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
+        exitSearchButton.fire();
         if(trackerList.size() == 0){
             deleteItemButton.setVisible(false);
             editItemButton.setVisible(false);
+            deleteAllButton.setVisible(false);
+            saveButton.setVisible(false);
         }
     }
 
     @FXML
+    public void deleteAllButtonClicked(ActionEvent actionEvent) {
+        serialList.clear();
+        trackerList.clear();
+
+        deleteItemButton.setVisible(false);
+        editItemButton.setVisible(false);
+        deleteAllButton.setVisible(false);
+        saveButton.setVisible(false);
+
+        exitSearchButton.fire();
+    }
+
+    @FXML
     public void addItemButtonClicked(ActionEvent actionEvent) {
+        exitSearchButton.fire();
         Stage stage = new Stage();
         stage.setTitle("Add Item");
         stage.setScene(operator.getScene("addItem"));
@@ -98,6 +121,7 @@ public class inventoryTrackerController implements Initializable {
     @FXML
     public void editItemButtonClicked(ActionEvent actionEvent) {
         editItemController.index = trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem());
+        exitSearchButton.fire();
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addItem.fxml"));
             editItemController edit = new editItemController(trackerList, serialList);
@@ -130,27 +154,32 @@ public class inventoryTrackerController implements Initializable {
     public void exitSearchButtonClicked(ActionEvent actionEvent){
         itemTable.setItems(trackerList);
         exitSearchButton.setVisible(false);
+        deleteItemButton.setVisible(false);
+        editItemButton.setVisible(false);
     }
 
     @FXML
-    public void htmlOptionSelected(ActionEvent actionEvent) {
-        fileSaver.saveHTML(trackerList, fileSaver.getFile("HTML Files (*.html)", "*.html"));
-    }
-
-    @FXML
-    public void tsvOptionSelected(ActionEvent actionEvent) {
-        fileSaver.saveTSV(trackerList, fileSaver.getFile("TSV Files (*.txt)", "*.txt"));
-    }
-
-    @FXML
-    public void jsonOptionSelected(ActionEvent actionEvent) {
-        fileSaver.saveJSON(trackerList, fileSaver.getFile("JSON Files (*.json)", "*.json"));
+    public void saveButtonClicked(ActionEvent actionEvent){
+        File file = fileSaver.getFile();
+        if(file != null) {
+            if (file.toString().contains("html")) {
+                fileSaver.saveHTML(trackerList, file);
+            } else if (file.toString().contains("txt")) {
+                fileSaver.saveTSV(trackerList, file);
+            } else if (file.toString().contains("json")) {
+                fileSaver.saveJSON(trackerList, file);
+            }
+        }
     }
 
     @FXML
     public void loadButtonClicked(ActionEvent actionEvent) {
         File file = fileLoader.chooseFile();
         if(file != null){
+            if(trackerList.size() > 0) {
+                getSaveInquiry();
+            }
+
             trackerList.clear();
             serialList.clear();
             if(file.toString().contains("html")){
@@ -172,6 +201,13 @@ public class inventoryTrackerController implements Initializable {
     @FXML
     public void exitButtonClicked(ActionEvent actionEvent) {
         Platform.exit();
+    }
+
+    public void getSaveInquiry(){
+        Stage stage = new Stage();
+        stage.setTitle("Save Inquiry");
+        stage.setScene(operator.getScene("saveInquiry"));
+        stage.show();
     }
 
     public boolean searchIsContained(item item, String search){

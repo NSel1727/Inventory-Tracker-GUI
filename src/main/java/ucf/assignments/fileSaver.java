@@ -68,16 +68,20 @@ public class fileSaver {
         }
     }
 
-    public static File getFile(String typePart1, String typePart2){
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Save Inventory");
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(typePart1, typePart2));
-        return chooser.showSaveDialog(null);
-    }
-
     private static String getJSONString(ObservableList<item> trackerList){
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.setPrettyPrinting().create();
         return gson.toJson(trackerList);
+    }
+
+    public static File getFile(){
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Save Inventory");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("HTML Files (*.html)", "*.html"),
+                new FileChooser.ExtensionFilter("TSV Files (*.txt)", "*.txt"),
+                new FileChooser.ExtensionFilter("JSON Files (*.json)", "*.json")
+        );
+        return chooser.showSaveDialog(null);
     }
 }

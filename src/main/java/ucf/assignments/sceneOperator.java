@@ -10,8 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +26,7 @@ public class sceneOperator {
 
         inventoryTrackerController inventory = new inventoryTrackerController(trackerList, serialList, this);
         addItemController add = new addItemController(trackerList, serialList, this);
+        saveInquiryController save = new saveInquiryController(trackerList, this);
 
         Parent root;
 
@@ -43,6 +42,12 @@ public class sceneOperator {
 
             root = loader.load();
             scenes.put("addItem", new Scene(root));
+
+            loader = new FXMLLoader(getClass().getResource("saveInquiry.fxml"));
+            loader.setController(save);
+
+            root = loader.load();
+            scenes.put("saveInquiry", new Scene(root));
         }catch(IOException ex){
             ex.printStackTrace();
         }

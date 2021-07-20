@@ -7,10 +7,9 @@ package ucf.assignments;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,15 +17,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class editItemController extends addItemController implements Initializable{
+
+    @FXML public TextField nameBox;
+    @FXML public TextField serialBox;
+    @FXML public TextField valueBox;
+
     public ObservableList<item> trackerList;
     public ArrayList<String> serialList;
-    public TableView itemTable;
-    public Text badSerial;
-    public Text badValue;
-    public Text badName;
-    public TextField nameBox;
-    public TextField serialBox;
-    public TextField valueBox;
     public static int index;
 
     @Override
@@ -42,6 +39,7 @@ public class editItemController extends addItemController implements Initializab
         this.serialList = serialList;
     }
 
+    @FXML
     public void completeButtonClicked(ActionEvent actionEvent) {
         serialList.remove(index);
         if(properName(nameBox.getText()) & properSerial(serialBox.getText()) & properValue(valueBox.getText())){

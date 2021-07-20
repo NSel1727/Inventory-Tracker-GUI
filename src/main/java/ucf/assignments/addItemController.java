@@ -5,9 +5,10 @@
 
 package ucf.assignments;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -16,15 +17,16 @@ import java.util.Locale;
 
 public class addItemController{
 
+    @FXML public Text badSerial;
+    @FXML public Text badValue;
+    @FXML public Text badName;
+    @FXML public TextField nameBox;
+    @FXML public TextField serialBox;
+    @FXML public TextField valueBox;
+
     public ObservableList<item> trackerList;
-    public sceneOperator operator;
-    public Text badSerial;
-    public Text badValue;
-    public Text badName;
-    public TextField nameBox;
-    public TextField serialBox;
-    public TextField valueBox;
     public ArrayList<String> serialList;
+    public sceneOperator operator;
 
     public addItemController(ObservableList<item> trackerList, ArrayList<String> serialList, sceneOperator operator){
         this.trackerList = trackerList;
@@ -37,6 +39,12 @@ public class addItemController{
         this.serialList = serialList;
     }
 
+    public addItemController(){
+        this.trackerList = FXCollections.observableArrayList();
+        this.serialList = new ArrayList<>();
+    }
+
+    @FXML
     public void completeButtonClicked(ActionEvent actionEvent) {
         if(properName(nameBox.getText()) & properSerial(serialBox.getText()) & properValue(valueBox.getText())){
             saveNewItem(nameBox.getText(), serialBox.getText(), valueBox.getText());
@@ -55,17 +63,18 @@ public class addItemController{
         }
         item item = new item(value, serialNumber, name);
 
-        serialList.add(serialNumber.toLowerCase(Locale.ROOT));
         trackerList.add(item);
+        serialList.add(serialNumber.toLowerCase(Locale.ROOT));
     }
 
     public boolean properName(String name){
         badName.setVisible(true);
-        if(name.length() < 2){
+        String result = lengthTest(name);
+        if(result.equals("Too Short")){
             badName.setText("Too Short");
             return false;
         }
-        if(name.length() > 256){
+        if(result.equals("Too Long")){
             badName.setText("Too Long");
             return false;
         }
@@ -73,13 +82,24 @@ public class addItemController{
         return true;
     }
 
+    public String lengthTest(String name){
+        if(name.length() < 2){
+            return "Too Short";
+        }
+        if(name.length() > 256){
+            return "Too Long";
+        }
+        return "";
+    }
+
     public boolean properSerial(String serial){
-        if(serialList.contains(serial.toLowerCase(Locale.ROOT))){
+        String result = serialTest(serial);
+        if(result.equals("Already Exists")){
             badSerial.setText("Already Exists");
             badSerial.setVisible(true);
             return false;
         }
-        if(!(serial.matches("^[a-zA-Z0-9]*$")) || serial.length() != 10){
+        if(result.equals("Incorrect Format")){
             badSerial.setText("Incorrect Format");
             badSerial.setVisible(true);
             return false;
@@ -88,25 +108,41 @@ public class addItemController{
         return true;
     }
 
+    public String serialTest(String serial){
+        if(serialList.contains(serial.toLowerCase(Locale.ROOT))){
+            return "Already Exists";
+        }
+        if(!(serial.matches("^[a-zA-Z0-9]*$")) || serial.length() != 10){
+            return "Incorrect Format";
+        }
+        return "";
+    }
+
     public boolean properValue(String value) {
+        String result = valueTest(value);
+        if(result.equals("Improper")){
+            badValue.setVisible(true);
+            return false;
+        }
+        badValue.setVisible(false);
+        return true;
+    }
+
+    public String valueTest(String value){
         if (value.length() > 0 && value.charAt(0) == '$') {
             String temp = value.substring(1);
             try {
                 Double.parseDouble(temp);
-                badValue.setVisible(false);
-                return true;
+                return "";
             } catch (Exception ex) {
-                badValue.setVisible(true);
-                return false;
+                return "Improper";
             }
         }
         try {
             Double.parseDouble(value);
-            badValue.setVisible(false);
-            return true;
+            return "";
         } catch (Exception ex) {
-            badValue.setVisible(true);
-            return false;
+            return "Improper";
         }
     }
 }
