@@ -1,3 +1,56 @@
 @startuml
 
+class inventoryTracker{
+
+
+}
+
+class sceneOperator{
+
+
+
+}
+
+class item{
+
+
+}
+
+class startController{
+
+
+}
+
+class inventoryTrackerController{
+
+
+}
+
+class addItemController{
+
+
+}
+
+class editItemController{
+
+
+
+}
+
+class saveInquiryController{
+
+
+}
+
+class fileLoader{
+
+
+
+}
+
+class fileSaver{
+
+
+}
+
 @enduml

@@ -83,10 +83,14 @@ public class inventoryTrackerController implements Initializable {
         this.operator = operator;
     }
 
+    public inventoryTrackerController(){
+        this.trackerList = FXCollections.observableArrayList();
+        this.serialList = new ArrayList<>();
+    }
+
     @FXML
     public void deleteItemButtonClicked(ActionEvent actionEvent) {
-        serialList.remove(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
-        trackerList.remove(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
+        deleteItem(trackerList.indexOf(itemTable.getSelectionModel().getSelectedItem()));
         exitSearchButton.fire();
         if(trackerList.size() == 0){
             deleteItemButton.setVisible(false);
@@ -208,6 +212,11 @@ public class inventoryTrackerController implements Initializable {
         stage.setTitle("Save Inquiry");
         stage.setScene(operator.getScene("saveInquiry"));
         stage.show();
+    }
+
+    public void deleteItem(int index){
+        serialList.remove(index);
+        trackerList.remove(index);
     }
 
     public boolean searchIsContained(item item, String search){

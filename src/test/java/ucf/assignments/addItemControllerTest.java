@@ -16,18 +16,17 @@ class addItemControllerTest {
         addItemController add = new addItemController();
         add.saveNewItem("Skyward Sword HD", "1111111111", "$59.99");
         assertTrue(add.trackerList.size() == 1);
-        add.trackerList.clear();
     }
 
     @Test
     void lengthTestRejectsTooShortName() {
         addItemController add = new addItemController();
-        String test = add.lengthTest("i");
+        String test = add.nameTest("i");
         assertEquals("Too Short", test);
     }
 
     @Test
-    void serialTestRejectsNameWithSCharacters() {
+    void serialTestRejectsNameWithSpecialCharacters() {
         addItemController add = new addItemController();
         String test = add.serialTest("11212@DDD!");
         assertEquals("Incorrect Format", test);

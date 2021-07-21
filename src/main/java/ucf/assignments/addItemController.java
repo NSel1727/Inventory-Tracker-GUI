@@ -69,7 +69,7 @@ public class addItemController{
 
     public boolean properName(String name){
         badName.setVisible(true);
-        String result = lengthTest(name);
+        String result = nameTest(name);
         if(result.equals("Too Short")){
             badName.setText("Too Short");
             return false;
@@ -82,7 +82,7 @@ public class addItemController{
         return true;
     }
 
-    public String lengthTest(String name){
+    public String nameTest(String name){
         if(name.length() < 2){
             return "Too Short";
         }

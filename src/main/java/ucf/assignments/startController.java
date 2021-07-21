@@ -7,14 +7,16 @@ package ucf.assignments;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class startController {
 
-    public Button startButton;
+    @FXML public Button startButton;
 
+    @FXML
     public void startButtonClicked(ActionEvent actionEvent) {
         try{
             sceneOperator operator = new sceneOperator();
@@ -31,6 +33,7 @@ public class startController {
         }
     }
 
+    @FXML
     public void exitButtonClicked(ActionEvent actionEvent) {
         Platform.exit();
     }

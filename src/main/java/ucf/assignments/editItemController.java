@@ -5,6 +5,7 @@
 
 package ucf.assignments;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,7 +40,13 @@ public class editItemController extends addItemController implements Initializab
         this.serialList = serialList;
     }
 
-    @FXML
+    public editItemController(){
+        this.trackerList = FXCollections.observableArrayList();
+        this.serialList = new ArrayList<>();
+        index = 0;
+    }
+
+    @FXML @Override
     public void completeButtonClicked(ActionEvent actionEvent) {
         serialList.remove(index);
         if(properName(nameBox.getText()) & properSerial(serialBox.getText()) & properValue(valueBox.getText())){
