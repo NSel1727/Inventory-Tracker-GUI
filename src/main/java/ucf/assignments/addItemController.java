@@ -58,9 +58,12 @@ public class addItemController{
     }
 
     public void saveNewItem(String name, String serialNumber, String value){
-        if(!(value.contains("$"))){
-            value = "$" + value;
+
+        if(value.contains("$")){
+            value = value.substring(1);
         }
+        value = "$" + Math.round(Double.parseDouble(value) * 100.00) / 100.00;
+
         item item = new item(value, serialNumber, name);
 
         trackerList.add(item);

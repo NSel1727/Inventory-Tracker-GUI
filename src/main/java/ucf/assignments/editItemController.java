@@ -63,9 +63,11 @@ public class editItemController extends addItemController implements Initializab
     }
 
     public void saveEditedItem(String name, String serialNumber, String value){
-        if(!(value.contains("$"))){
-            value = "$" + value;
+        if(value.contains("$")){
+            value = value.substring(1);
         }
+        value = "$" + Math.round(Double.parseDouble(value) * 100.00) / 100.00;
+
         serialList.add(serialNumber.toLowerCase(Locale.ROOT));
         trackerList.get(index).name = name;
         trackerList.get(index).serialNumber = serialNumber;

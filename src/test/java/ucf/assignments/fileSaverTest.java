@@ -35,14 +35,14 @@ class fileSaverTest {
     void saveTSVCreatesTSVFileBasedOnInventory() {
         try {
             addItemController add = new addItemController();
-            add.saveNewItem("Bicycle", "5555555555", "$30.00");
+            add.saveNewItem("Bicycle", "5555555555", "$30.54");
 
             File file = new File("Inventory.txt");
             fileSaver.saveTSV(add.trackerList, file);
 
             Scanner scan = new Scanner(file);
             scan.nextLine();
-            assertTrue(scan.next().equals("$30.00"));
+            assertTrue(scan.next().equals("$30.54"));
         }catch(FileNotFoundException ex){
             ex.printStackTrace();
         }
