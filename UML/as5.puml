@@ -1,56 +1,193 @@
 @startuml
 
 class inventoryTracker{
-
-
+    main()
+    start()
 }
 
 class sceneOperator{
+    Map<String, Scene> scenes
+    ObservableList<item> trackerList
+    ArrayList<String> serialList
 
+    inventoryTrackerController inventory
+    addItemController add
+    saveInquiryController save
 
+    Parent root
+    FXMLLoader loader
 
+    initiateScenes()
+    getScene()
 }
 
 class item{
+    String value
+    String name
+    String serialNumber
 
-
+    getValue()
+    getName()
+    getSerialNumber()
 }
 
 class startController{
+    Button startButton
+    Scene scene
+    Stage stage
 
+    sceneOperator operator
 
+    startButtonClicked()
+    exitButtonClicked()
 }
 
 class inventoryTrackerController{
+    TableView itemTable
+    TextField itemCount
+    TextField searchBar
+    Button deleteItemButton
+    Button deleteAllButton
+    Button editItemButton
+    Button addItemButton
+    Button exitSearchButton
+    MenuItem saveButton
+    TableColumn valueColumn
+    TableColumn serialColumn
+    TableColumn nameColumn
 
+    ObservableList<item> trackerList
+    ObservableList<item> filtered
+    ArrayList<String> serialList
+    sceneOperator operator
+    File file inquiryFile
+
+    initialize()
+    deleteItemButtonClicked()
+    deleteAllButtonClicked()
+    addItemButtonClicked()
+    editItemButtonClicked()
+    searchButtonClicked()
+    exitSearchButtonClicked()
+    saveButtonClicked()
+    loadButtonClicked()
+    exitButtonClicked()
+    getSaveInquiry()
+    deleteItem()
+    searchIsContained()
+
+    ArrayList<String> loadedSerialList()
 
 }
 
 class addItemController{
+    Text badSerial
+    Text badValue
+    Text badName
+    TextField nameBox
+    TextField serialBox
+    TextField valueBox
+
+    ObservableList<item> trackerList
+    ArrayList<String> serialList
+    sceneOperator operator
+    String result
+
+    completeButtonClicked()
+    saveNewItem()
+    properName()
+    properSerial()
+    properValue()
+    nameTest()
+    serialTest()
+    valueTest()
 
 
 }
 
 class editItemController{
+    TextField nameBox
+    TextField serialBox
+    TextField valueBox
 
+    ObservableList<item> trackerList
+    ArrayList<String> serialList
+    int index
 
+    initialize()
+    completeButtonClicked()
+    saveEditedItem()
 
 }
 
 class saveInquiryController{
+    Text warningText
 
+    ObservableList<item> trackerList
+    sceneOperator operator
 
+    saveButtonClicked()
+    doNotSaveButtonClicked()
+    loadOperations()
+
+    ArrayList<String> loadedSerialList()
 }
 
 class fileLoader{
+    File file
+    FileChooser chooser
+    Scanner scan
+    Document doc
+    Element table
+    Elements rows
+    Gson gson
+    JsonArray jArray
 
+    ObservableList<item> htmlInventory
+    ObservableList<item> tsvInventory
+    ObservableList<item> jsonInventory
 
-
+    ObservableList<item> loadHTML()
+    ObservableList<item> loadTSV()
+    ObservableList<item> loadJSON()
+    File chooseFile()
 }
 
 class fileSaver{
+    File file
+    FileWriter writer
+    FileChooser chooser
+    GsonBuilder builder
+    Gson gson
+    ObservableList<item> trackerList
 
+    saveHTML()
+    saveTSV()
+    saveJSON()
 
+    String getJSONString()
+    File getFile()
 }
 
+javafx.Application <|-- inventoryTracker
+addItemController <|-- editItemController
+
+class inventoryTrackerController implements Initializable
+class editItemController implements Initializable
+
+inventoryTracker -- startController
+startController -- inventoryTrackerController
+inventoryTrackerController -- addItemController
+inventoryTrackerController -- editItemController
+inventoryTrackerController -- fileLoader
+inventoryTrackerController -- fileSaver
+fileLoader -- saveInquiryController
+
+item o-- inventoryTrackerController
+item o-- addItemController
+item o-- editItemController
+editItemController o-- inventoryTrackerController
+inventoryTrackerController o-- sceneOperator
+addItemController o-- sceneOperator
+saveInquiryController o-- sceneOperator
 @enduml

@@ -45,6 +45,7 @@ public class inventoryTrackerController implements Initializable {
     public ObservableList<item> trackerList;
     public ArrayList<String> serialList;
     public sceneOperator operator;
+    public static File inquiryFile;
 
 
     @Override
@@ -158,8 +159,6 @@ public class inventoryTrackerController implements Initializable {
     public void exitSearchButtonClicked(ActionEvent actionEvent){
         itemTable.setItems(trackerList);
         exitSearchButton.setVisible(false);
-        deleteItemButton.setVisible(false);
-        editItemButton.setVisible(false);
     }
 
     @FXML
@@ -181,7 +180,9 @@ public class inventoryTrackerController implements Initializable {
         File file = fileLoader.chooseFile();
         if(file != null){
             if(trackerList.size() > 0) {
+                inquiryFile = file;
                 getSaveInquiry();
+                return;
             }
 
             trackerList.clear();

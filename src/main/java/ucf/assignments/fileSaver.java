@@ -43,10 +43,12 @@ public class fileSaver {
                 return;
             }
             FileWriter writer = new FileWriter(file);
-            writer.write("Value\tSerial Number\tName\t");
+            String header = String.format("%10s\t%10s\t%s", "Value", "Serial Number", "Name");
+            writer.write(header);
             writer.write("\n");
             for(item i : trackerList){
-                writer.write(i.value + "\t" + i.serialNumber + "\t" + i.name);
+                String items = String.format("%10s\t%10s\t%s", i.value, i.serialNumber, i.name);
+                writer.write(items);
                 writer.write("\n");
             }
             writer.close();

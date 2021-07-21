@@ -27,7 +27,7 @@ public class fileLoader {
 
     public static ObservableList<item> loadHTML(File file){
         try {
-            ObservableList<item> htmlInventory= FXCollections.observableArrayList();
+            ObservableList<item> htmlInventory = FXCollections.observableArrayList();
             Scanner scan = new Scanner(file);
             String htmlString = scan.nextLine();
 
@@ -50,10 +50,10 @@ public class fileLoader {
     public static ObservableList<item> loadTSV(File file){
         try {
             Scanner scan = new Scanner(file);
-            ObservableList<item> tsvInventory= FXCollections.observableArrayList();
+            ObservableList<item> tsvInventory = FXCollections.observableArrayList();
             scan.nextLine();
             while(scan.hasNextLine()){
-                tsvInventory.add(new item(scan.next(), scan.next(), scan.nextLine()));
+                tsvInventory.add(new item(scan.next(), scan.next(), scan.nextLine().substring(1)));
             }
             return tsvInventory;
         } catch (Exception ex) {

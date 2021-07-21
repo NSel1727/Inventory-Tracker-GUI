@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class sceneOperator {
 
         inventoryTrackerController inventory = new inventoryTrackerController(trackerList, serialList, this);
         addItemController add = new addItemController(trackerList, serialList, this);
-        saveInquiryController save = new saveInquiryController(trackerList, this);
+        saveInquiryController save = new saveInquiryController(trackerList, serialList, this);
 
         Parent root;
 
