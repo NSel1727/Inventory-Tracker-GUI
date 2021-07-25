@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 

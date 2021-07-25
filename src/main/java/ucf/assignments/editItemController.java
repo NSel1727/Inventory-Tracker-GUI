@@ -48,7 +48,7 @@ public class editItemController extends addItemController implements Initializab
 
     @FXML @Override
     public void completeButtonClicked(ActionEvent actionEvent) {
-        serialList.remove(index);
+        serialList.remove(trackerList.get(index).serialNumber.toLowerCase(Locale.ROOT));
         if(properName(nameBox.getText()) & properSerial(serialBox.getText()) & properValue(valueBox.getText())){
             saveEditedItem(nameBox.getText(), serialBox.getText(), valueBox.getText());
 
@@ -59,7 +59,7 @@ public class editItemController extends addItemController implements Initializab
             valueBox.getScene().getWindow().hide();
             return;
         }
-        serialList.add(serialBox.getText().toLowerCase(Locale.ROOT));
+        serialList.add(index, trackerList.get(index).serialNumber.toLowerCase(Locale.ROOT));
     }
 
     public void saveEditedItem(String name, String serialNumber, String value){
@@ -68,11 +68,11 @@ public class editItemController extends addItemController implements Initializab
         }
         value = "$" + Math.round(Double.parseDouble(value) * 100.00) / 100.00;
 
-        serialList.add(serialNumber.toLowerCase(Locale.ROOT));
         trackerList.get(index).name = name;
         trackerList.get(index).serialNumber = serialNumber;
         trackerList.get(index).value = value;
 
+        serialList.add(index, serialNumber.toLowerCase(Locale.ROOT));
         trackerList.set(index, trackerList.get(index));
     }
 }
